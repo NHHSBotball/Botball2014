@@ -1,0 +1,27 @@
+# On-Kovan Makefile
+
+PRIMARY=primary.c
+ALL_OFF=all-off.c
+
+PRIMARY_OBJECTS=$(PRIMARY:.c=.o)
+ALL_OFF_OBJECTS=$(ALL_OFF:.c=.o)
+
+CC=gcc
+CFLAGS=-Wall
+LDFLAGS=-lkovan -lpthread
+
+all: primay all-off
+
+primary: $(PRIMARY_OBJECTS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(PRIMARY_OBJECTS) -o primary
+
+all-off: $(ALL_OFF_OBJECTS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(ALL_OFF_OBJECTS) -o all-off
+
+install: primary-install all-off-install
+
+primary-install: primary
+	cp primary /kovan/binaries/primary
+
+all-off-install: all-off
+	cp all-off /kovan/binaries/
