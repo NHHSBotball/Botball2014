@@ -10,7 +10,7 @@ CC=gcc
 CFLAGS=-Wall
 LDFLAGS=-lkovan -lpthread
 
-all: primay all-off
+all: primary all-off
 
 primary: $(PRIMARY_OBJECTS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(PRIMARY_OBJECTS) -o primary

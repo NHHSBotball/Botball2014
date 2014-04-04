@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="90">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
-    <logicalFolder name="f2"
-                   displayName="Header Files"
-                   projectFiles="true"
-                   kind="ROOT">
+    <logicalFolder name="f2" displayName="Header Files" projectFiles="true">
     </logicalFolder>
-    <logicalFolder name="f1"
-                   displayName="Source Files"
-                   projectFiles="true"
-                   kind="ROOT">
+    <logicalFolder name="f1" displayName="Source Files" projectFiles="true">
       <itemPath>all-off.c</itemPath>
+      <itemPath>create-drive.c</itemPath>
       <itemPath>primary.c</itemPath>
+      <itemPath>test.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -44,7 +40,11 @@
       </makefileType>
       <item path="all-off.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="create-drive.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="primary.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test.c" ex="false" tool="0" flavor2="0">
       </item>
     </conf>
   </confs>
