@@ -25,13 +25,16 @@
 #define AREA_MISSMATCH_TOLERANCE 19
 #define X_MISSMATCH_TOLERANCE 20
 
-#define SLEEP_TIME 30
+#define SLEEP_TIME 10
 
 #define DRIVE_TOLERANCE 15
 
 #define APPROACH_TOLERANCE 10
 
+#define ARC_TURN_RADIUS_CONSTANT 50000 // 75000
+
 int average(int i1, int i2, int i3);
+int arrAverage(int* arr, int length);
 
 void openingRouteen() {
     create_drive_straight(0);
@@ -57,7 +60,7 @@ void secondRouteen() {
 
 create_drive_straight(0);
 
-create_drive_straight(300);
+create_drive_straight(150);
 
 msleep(511);
 
@@ -117,7 +120,7 @@ create_drive_straight(0);
 
 create_drive_straight(-300);
 
-msleep(661);
+msleep(3000);
 
 create_drive_straight(0);
 
@@ -135,10 +138,19 @@ int main(int argc, char** argv) {
     msleep(2000);
     printf("camera open response: %i\n", camera_open());
     bool possibleApproach = false;
+    
+    int objX[3] = {0, 0, 0};
+    int objArea[3] = {0, 0, 0};
+    
+    int objDataIndex = 0;
+    bool objDataInitialized = false;
+    
     while (true) {
         msleep(SLEEP_TIME);
+        
         camera_update();
-        int obj1Area, obj1X;
+        
+        // **** GET NEW VALUE ****
         if (get_object_count(0) > 1) {
             int lobj0Area = get_object_area(0,0);
             int lobj1Area = get_object_area(0,1);
@@ -148,111 +160,47 @@ int main(int argc, char** argv) {
                 printf("Detecting two cubes, going with one on left.  Areas are: %i, %i.  Xs are: %i, %i.\n", lobj0Area, lobj1Area, lobj0X, lobj1X);
                 if (lobj0X < lobj1X) {
                     //Go with object 0
-                    obj1X = lobj0X;
-                    obj1Area = lobj0Area;
+                    objX[objDataIndex] = lobj0X;
+                    objArea[objDataIndex] = lobj0Area;
                 } else {
                     //Go with object 1
-                    
-                    obj1X = lobj1X;
-                    obj1Area = lobj1Area;
+                    objX[objDataIndex] = lobj1X;
+                    objArea[objDataIndex] = lobj1Area;
                 }
             } else {
-                obj1Area = get_object_area(0, 0);
-                obj1X = get_object_center_x(0, 0) - get_camera_width() / 2;
+                objArea[objDataIndex] = get_object_area(0, 0);
+                objX[objDataIndex] = get_object_center_x(0, 0) - get_camera_width() / 2;
             }
         } else if (get_object_count(0) > 0) {
-            obj1Area = get_object_area(0,0);
-            obj1X = get_object_center_x(0,0) - get_camera_width() / 2;
-        } else {
-            printf("did not find object\n");
-            continue;
-        }
-        msleep(SLEEP_TIME);
-        camera_update();
-        
-        int obj2Area, obj2X;
-        if (get_object_count(0) > 1) {
-            int lobj0Area = get_object_area(0,0);
-            int lobj1Area = get_object_area(0,1);
-            int lobj1X = get_object_center_x(0,1) - get_camera_width() / 2;
-            int lobj0X = get_object_center_x(0,0) - get_camera_width() / 2;
-            if (lobj0Area - lobj1Area < CUBE_SIZE_DIFFERENCE * lobj0Area) {
-                printf("Detecting two cubes, going with one on left.  Areas are: %i, %i.  Xs are: %i, %i.\n", lobj0Area, lobj1Area, lobj0X, lobj1X);
-                if (lobj0X < lobj1X) {
-                    //Go with object 0
-                    obj2X = lobj0X;
-                    obj2Area = lobj0Area;
-                } else {
-                    //Go with object 1
-                    
-                    obj2X = lobj1X;
-                    obj2Area = lobj1Area;
-                }
-            } else {
-                obj2Area = get_object_area(0, 0);
-                obj2X = get_object_center_x(0, 0) - get_camera_width() / 2;
-            }
-        } else if (get_object_count(0) > 0) {
-            obj2Area = get_object_area(0,0);
-            obj2X = get_object_center_x(0,0) - get_camera_width() / 2;
-        } else {
-            printf("did not find object\n");
-            continue;
-        }
-        msleep(SLEEP_TIME);
-        camera_update();
-        int obj3Area, obj3X;
-        
-        
-        
-        if (get_object_count(0) > 1) {
-            int lobj0Area = get_object_area(0,0);
-            int lobj1Area = get_object_area(0,1);
-            int lobj1X = get_object_center_x(0,1) - get_camera_width() / 2;
-            int lobj0X = get_object_center_x(0,0) - get_camera_width() / 2;
-            if (lobj0Area - lobj1Area < CUBE_SIZE_DIFFERENCE * lobj0Area) {
-                printf("Detecting two cubes, going with one on left.  Areas are: %i, %i.  Xs are: %i, %i.\n", lobj0Area, lobj1Area, lobj0X, lobj1X);
-                if (lobj0X < lobj1X) {
-                    //Go with object 0
-                    obj3X = lobj0X;
-                    obj3Area = lobj0Area;
-                } else {
-                    //Go with object 1
-                    
-                    obj3X = lobj1X;
-                    obj3Area = lobj1Area;
-                }
-            } else {
-                obj3Area = get_object_area(0, 0);
-                obj3X = get_object_center_x(0, 0) - get_camera_width() / 2;
-            }
-        } else if (get_object_count(0) > 0) {
-            obj3Area = get_object_area(0,0);
-            obj3X = get_object_center_x(0,0) - get_camera_width() / 2;
+            objArea[objDataIndex] = get_object_area(0,0);
+            objX[objDataIndex] = get_object_center_x(0,0) - get_camera_width() / 2;
         } else {
             printf("did not find object\n");
             continue;
         }
         
+        // **** UPDATE DATA COUNTER ****
+        if (!objDataInitialized) {
+            objX[1] = objX[2] = objX[0];
+            objArea[1] = objArea[2] = objArea[0];
+            objDataInitialized = true;
+        }
+        objDataIndex = (objDataIndex + 1) % 3;
         
-        int averageArea = average(obj1Area, obj2Area, obj3Area);
-        if (abs(averageArea - obj1Area) / averageArea >  AREA_MISSMATCH_TOLERANCE || abs(averageArea - obj2Area) / averageArea >  AREA_MISSMATCH_TOLERANCE || abs(averageArea - obj3Area) / averageArea >  AREA_MISSMATCH_TOLERANCE) {
-            printf("Area mismatch: a1, a2, a3: %i, %i, %i\n", obj1Area, obj2Area, obj3Area);
+        // **** ADJUST CALIBRATION ****
+        int averageArea = arrAverage(objArea, 3);
+        if (abs(averageArea - objArea[0]) / averageArea >  AREA_MISSMATCH_TOLERANCE || abs(averageArea - objArea[1]) / averageArea >  AREA_MISSMATCH_TOLERANCE || abs(averageArea - objArea[2]) / averageArea >  AREA_MISSMATCH_TOLERANCE) {
+            printf("Area mismatch: a1, a2, a3: %i, %i, %i\n", objArea[0], objArea[1], objArea[2]);
             continue;
         }
-        printf("area consistant at: %i\n", averageArea);
+        printf("area consistent at: %i\n", averageArea);
         
-        int averageX = average(obj1X, obj2X, obj3X);
-        
-        if (abs(averageX - obj1X) >  X_MISSMATCH_TOLERANCE || abs(averageX - obj2X) >  X_MISSMATCH_TOLERANCE || abs(averageX - obj3X) >  X_MISSMATCH_TOLERANCE) {
-            printf("X mismatch: a1, a2, a3: %i, %i, %i\n", obj1X, obj2X, obj3X);
+        int averageX = arrAverage(objX, 3);
+        if (abs(averageX - objX[0]) >  X_MISSMATCH_TOLERANCE || abs(averageX - objX[1]) >  X_MISSMATCH_TOLERANCE || abs(averageX - objX[2]) >  X_MISSMATCH_TOLERANCE) {
+            printf("X mismatch: a1, a2, a3: %i, %i, %i\n", objX[0], objX[1], objX[2]);
             continue;
         }
-        printf("X consistant at: %i\n", averageX);
-        
-        
-        
-        
+        printf("X consistent at: %i\n", averageX);
         
         
         if (averageArea > 2000) {
@@ -265,19 +213,24 @@ int main(int argc, char** argv) {
             while (analog(0) > 800) {
             }
 
-            msleep(1000);
+            msleep(800);
             create_drive_straight(0);
             move_claw_amount(CLAW_CLOSE_AMOUNT);
+            
+            // LOL THIS IS EXIT POINT
+            secondRouteen();
+            thirdRouteen();
+            
             return 0; 
         }
         
         if (abs(averageX) < DRIVE_TOLERANCE) {
             create_drive_straight(-60);
         } else if (averageX < 0) {
-            create_drive(-60, (double)75000 / (double)averageX );
+            create_drive(-60, (double)ARC_TURN_RADIUS_CONSTANT / (double)averageX );
         } else {
             //positive radius
-            create_drive(-60, (double)75000 / (double)averageX);
+            create_drive(-60, (double)ARC_TURN_RADIUS_CONSTANT / (double)averageX);
         }
         if (get_create_lbump() || get_create_rbump()) {
             break;
@@ -301,4 +254,12 @@ int main(int argc, char** argv) {
 
 int average(int i1, int i2, int i3) {
     return (i1 + i2 + i3) / 3;
+}
+
+int arrAverage(int* arr, int length) {
+    int avr = 0;
+    for (int i = 0; i < length; i++) {
+        avr += arr[i];
+    }
+    return avr/length;
 }
