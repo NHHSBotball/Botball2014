@@ -11,7 +11,11 @@ void raw_raise_claw_to(int pos);
 void raise_claw_to(int pos);
 
 int main(int argc, char** argv) {
+    
+    //top hat is at 248 without cube and 190 with cube
+    //servos are at pickup 1200, ground is  240, dropoff is 600
     printf("starting v 5.\n");
+    raise_claw_to(240);
     enable_servos();
     raw_raise_claw_to(0);
     //set_servos_enabled(true);

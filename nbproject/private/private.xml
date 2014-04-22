@@ -7,8 +7,16 @@
         <activeConfTypeElem>0</activeConfTypeElem>
         <activeConfIndexElem>0</activeConfIndexElem>
     </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Henry/Documents/GitHub/Botball2014/claw-utils.h</file>
+            <file>file:/C:/Users/Henry/Documents/GitHub/Botball2014/all-off.c</file>
+            <file>file:/C:/Users/Henry/Documents/GitHub/Botball2014/test.c</file>
+            <file>file:/C:/Users/Henry/Documents/GitHub/Botball2014/create-drive.c</file>
+            <file>file:/C:/Users/Henry/Documents/GitHub/Botball2014/test2.c</file>
+            <file>file:/C:/Users/Henry/Documents/GitHub/Botball2014/primary.c</file>
+        </group>
     </open-files>
     <preferences xmlns="http://www.netbeans.org/ns/auxiliary-configuration-preferences/1">
         <module name="org-netbeans-modules-cnd-discovery">

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include "claw-utils.h"
 #include <sys/time.h>
 #include <kovan/kovan.h>
 
@@ -20,11 +21,14 @@ void wait_for_char() {
 
 }
 
+
+
 int main(int argc, char** argv) {
     
     initscr();
     noecho();
-    printf("welcome to create drive v4\n\r");
+    printf("welcome to create drive v6 (custom)\n\r");
+    printf("the controls are wasd for driving and g for claw middle, t for claw up\n\r");
     refresh();
     logfile = fopen("/kovan/logs/log1.txt", "w");
     if (logfile != NULL) {
@@ -38,6 +42,16 @@ int main(int argc, char** argv) {
     refresh();
     create_connect();
     printf("create connection sucessfull!\n\r");
+    
+    printf("connecting to camera...");
+    if (camera_open() == 1) {
+        printf("camera connection sucessfull!\n\r");
+    } else {
+        printf("error connecting to camera.\n\r");
+    }
+    clear();
+    raise_claw_to(CLAW_UP_POSITION);
+    enable_servos();
     while (true) {
         refresh();
         create_drive_straight(0);
@@ -75,6 +89,28 @@ int main(int argc, char** argv) {
                 create_drive_straight(500);
                 wait_for_char();
                 break;
+                
+            case 't':
+                printf("raise_claw_to(1200);\n\r");
+                fprintf(logfile, "raise_claw_to(1200);\n\r");
+                raise_claw_to(CLAW_UP_POSITION);
+                break;
+            case 'g':
+                printf("raise_claw_to(500);\n\r");
+                fprintf(logfile, "raise_claw_to(500);\n\r");
+                raise_claw_to(CLAW_MIDDLE_POSITION);
+                break;
+            case 'h' :
+                printf("move_claw_amount(700);\n\r");
+                fprintf(logfile, "move_claw_amount(700);\n\r");
+                move_claw_amount(500);
+                break;
+            case 'j' :
+                printf("move_claw_amount(-700);\n\r");
+                fprintf(logfile, "move_claw_amount(-700);\n\r");
+                move_claw_amount(-500);
+                break;
+                
             case '1':
                 fclose(logfile);
                 endwin();
