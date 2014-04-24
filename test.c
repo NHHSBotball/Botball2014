@@ -56,87 +56,70 @@ void openingRouteen() {
     move_claw_amount(CLAW_CLOSE_AMOUNT);
 }
 
-void secondRouteen() {
-
-create_drive_straight(0);
-
-create_drive_straight(150);
-
-msleep(511);
-
-create_drive_straight(0);
-
-create_spin_CCW(150);
-
-msleep(1180);
-
-create_drive_straight(0);
-
-create_drive_straight(-300);
-
-msleep(6500);
-
-create_drive_straight(0);
-
-create_drive_straight(300);
-
-msleep(311);
-
-create_drive_straight(0);
-
-create_spin_CW(150);
-
-msleep(1260);
-
-create_drive_straight(0);
-
-create_drive_straight(-300);
-
-msleep(1080);
-
-create_drive_straight(0);
-
+void secondRouteen(int xSum) {
+    create_drive_straight(0);
+    create_drive_straight(150);
+    msleep(511);
+    create_drive_straight(0);
+    create_spin_CCW(150);
+    msleep(1210 + (xSum - 1000) / 30);
+    create_drive_straight(0);
+    create_drive_straight(-300);
+    msleep(6500);
+    create_drive_straight(0);
+    create_drive_straight(200);
+    msleep(271);
+    create_drive_straight(0);
+    create_spin_CW(150);
+    msleep(1350);   //This is the code the make a 90% turn.
+    create_drive_straight(0);
+    create_drive_straight(-300);
+    msleep(2000);
+    create_drive_straight(0);
 }
-
 
 void thirdRouteen() {
     create_drive_straight(0);
 
-create_drive_straight(300);
+    create_drive_straight(300);
 
-msleep(1129);
+    msleep(1129);
 
+    create_drive_straight(0);
+
+    raise_claw_to(CLAW_MIDDLE_POSITION);
+
+    create_spin_CCW(150);
+
+    msleep(2492);
+
+    create_drive_straight(0);
+
+    create_drive_straight(-70);
+
+    msleep(1900);
+
+    move_claw_amount(CLAW_OPEN_AMOUNT);
 create_drive_straight(0);
 
-raise_claw_to(500);
 
-create_drive_straight(0);
-
-create_spin_CCW(150);
-
-msleep(2472);
-
-create_drive_straight(0);
-
-create_drive_straight(-300);
-
-msleep(3000);
-
-create_drive_straight(0);
-
-move_claw_amount(-CLAW_CLOSE_AMOUNT);
-
-create_drive_straight(0);
+    
 
 }
 
 int main(int argc, char** argv) {
     create_connect();
     create_drive_straight(0);
+    
     raise_claw_to(CLAW_UP_POSITION);
     enable_servos();
-    msleep(2000);
+    msleep(1000);
     printf("camera open response: %i\n", camera_open());
+    
+    create_spin_CW(150);
+    msleep(1350); 
+    create_drive_straight(0);
+    
     bool possibleApproach = false;
     
     int objX[3] = {0, 0, 0};
@@ -144,6 +127,9 @@ int main(int argc, char** argv) {
     
     int objDataIndex = 0;
     bool objDataInitialized = false;
+    
+    int xSum = 0;
+    int xEarlySum = 0;
     
     while (true) {
         msleep(SLEEP_TIME);
@@ -157,8 +143,8 @@ int main(int argc, char** argv) {
             int lobj1X = get_object_center_x(0,1) - get_camera_width() / 2;
             int lobj0X = get_object_center_x(0,0) - get_camera_width() / 2;
             if (lobj0Area - lobj1Area < CUBE_SIZE_DIFFERENCE * lobj0Area) {
-                printf("Detecting two cubes, going with one on left.  Areas are: %i, %i.  Xs are: %i, %i.\n", lobj0Area, lobj1Area, lobj0X, lobj1X);
-                if (lobj0X < lobj1X) {
+                printf("Detecting two cubes, going with one on right.  Areas are: %i, %i.  Xs are: %i, %i.\n", lobj0Area, lobj1Area, lobj0X, lobj1X);
+                if (lobj0X > lobj1X) {
                     //Go with object 0
                     objX[objDataIndex] = lobj0X;
                     objArea[objDataIndex] = lobj0Area;
@@ -202,7 +188,10 @@ int main(int argc, char** argv) {
         }
         printf("X consistent at: %i\n", averageX);
         
-        
+        xSum += averageX;
+        if (averageArea < 700) {
+            xEarlySum += averageX;
+        }
         if (averageArea > 2000) {
             possibleApproach = true;
         }
@@ -212,13 +201,14 @@ int main(int argc, char** argv) {
             create_drive_straight(-60);
             while (analog(0) > 800) {
             }
-
+            printf("xsum: %i\n", xSum);
+            printf("xearly sum: %i\n", xEarlySum);
             msleep(800);
             create_drive_straight(0);
             move_claw_amount(CLAW_CLOSE_AMOUNT);
-            
-            // LOL THIS IS EXIT POINT
-            secondRouteen();
+            motor(0, 4);
+            // LOL THIS IS EXIT POINT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            secondRouteen(xSum);
             thirdRouteen();
             
             return 0; 
@@ -232,9 +222,7 @@ int main(int argc, char** argv) {
             //positive radius
             create_drive(-60, (double)ARC_TURN_RADIUS_CONSTANT / (double)averageX);
         }
-        if (get_create_lbump() || get_create_rbump()) {
-            break;
-        }
+
     }
     
     camera_close();
