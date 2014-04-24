@@ -35,6 +35,9 @@
 
 int average(int i1, int i2, int i3);
 int arrAverage(int* arr, int length);
+int preformApproach(bool leftCube);
+void fourthRouteen();
+
 
 void openingRouteen() {
     create_drive_straight(0);
@@ -107,6 +110,49 @@ create_drive_straight(0);
 
 }
 
+void fourthRouteen() {
+    create_drive_straight(150);
+    msleep(170);
+    create_drive_straight(0);
+    raise_claw_to(CLAW_UP_POSITION);
+    create_drive_straight(-200);
+    msleep(700);
+    create_drive_straight(0);
+    create_drive_straight(150);
+    create_spin_CW(150);
+    msleep(1350);  //90% turn value.
+    create_drive_straight(0);
+    create_drive_straight(150);
+    msleep(800);
+    create_drive_straight(0);
+    
+    create_spin_CW(150);
+    msleep(1350);  //90% turn value.
+    create_drive_straight(0);
+}
+
+
+void fithRouteen() {
+    create_drive_straight(150);
+    msleep(511);
+    create_drive_straight(0);
+    create_spin_CCW(150);
+    msleep(1210);
+    create_drive_straight(0);
+    create_drive_straight(-300);
+    msleep(4500);
+    create_drive_straight(0);
+    create_drive_straight(200);
+    msleep(271);
+    create_drive_straight(0);
+    create_spin_CW(150);
+    msleep(1350);   //This is the code the make a 90% turn.
+    create_drive_straight(0);
+    create_drive_straight(-300);
+    msleep(2000);
+    create_drive_straight(0);
+}
+
 int main(int argc, char** argv) {
     create_connect();
     create_drive_straight(0);
@@ -119,7 +165,17 @@ int main(int argc, char** argv) {
     create_spin_CW(150);
     msleep(1350); 
     create_drive_straight(0);
-    
+
+    secondRouteen(preformApproach(false));  //Second routeen and fith routeen do almost the same thing.
+    thirdRouteen();
+    fourthRouteen();
+    preformApproach(false);
+    fithRouteen();
+    thirdRouteen();
+}
+
+
+int preformApproach(bool leftCube) {
     bool possibleApproach = false;
     
     int objX[3] = {0, 0, 0};
@@ -144,7 +200,7 @@ int main(int argc, char** argv) {
             int lobj0X = get_object_center_x(0,0) - get_camera_width() / 2;
             if (lobj0Area - lobj1Area < CUBE_SIZE_DIFFERENCE * lobj0Area) {
                 printf("Detecting two cubes, going with one on right.  Areas are: %i, %i.  Xs are: %i, %i.\n", lobj0Area, lobj1Area, lobj0X, lobj1X);
-                if (lobj0X > lobj1X) {
+                if (leftCube ? lobj0X < lobj1X : lobj0X > lobj1X) {
                     //Go with object 0
                     objX[objDataIndex] = lobj0X;
                     objArea[objDataIndex] = lobj0Area;
@@ -207,11 +263,8 @@ int main(int argc, char** argv) {
             create_drive_straight(0);
             move_claw_amount(CLAW_CLOSE_AMOUNT);
             motor(0, 4);
-            // LOL THIS IS EXIT POINT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            secondRouteen(xSum);
-            thirdRouteen();
             
-            return 0; 
+            return xSum; 
         }
         
         if (abs(averageX) < DRIVE_TOLERANCE) {
@@ -225,7 +278,7 @@ int main(int argc, char** argv) {
 
     }
     
-    camera_close();
+    printf("APPROACH FAILED!\n");
     
     //printf("area: %i", get_object_area(0,0));
     /*
@@ -237,8 +290,9 @@ int main(int argc, char** argv) {
     //thirdRouteen();
     //move_claw_amount(CLAW_CLOSE_AMOUNT);
     //disable_servos();
-    return (EXIT_SUCCESS);
+    return (xSum);
 }
+
 
 int average(int i1, int i2, int i3) {
     return (i1 + i2 + i3) / 3;
