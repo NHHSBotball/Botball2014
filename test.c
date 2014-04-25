@@ -104,10 +104,6 @@ void thirdRouteen() {
 
     move_claw_amount(CLAW_OPEN_AMOUNT);
 create_drive_straight(0);
-
-
-    
-
 }
 
 void fourthRouteen() {
@@ -123,7 +119,7 @@ void fourthRouteen() {
     msleep(1300);  //90% turn value.
     create_drive_straight(0);
     create_drive_straight(300);
-    msleep(2700);
+    msleep(3200);
     create_drive_straight(0);
     
     create_spin_CW(150);
@@ -132,7 +128,7 @@ void fourthRouteen() {
     msleep(1500);
     create_drive_straight(0);
     create_spin_CCW(150);
-    msleep(270);
+    msleep(170);
     create_drive_straight(0);
 }
 
@@ -158,7 +154,26 @@ void fithRouteen() {
     create_drive_straight(0);
 }
 
+void sixthRouteen() {
+    create_drive_straight(0);
+    create_drive_straight(300);
+    msleep(1129);
+    create_drive_straight(0);
 
+    raise_claw_to(CLAW_MIDDLE_POSITION);
+
+    create_spin_CCW(150);
+
+    msleep(2492);
+
+    create_drive_straight(0);
+
+    create_drive_straight(-70);
+    msleep(2000);
+
+    move_claw_amount(CLAW_OPEN_AMOUNT);
+create_drive_straight(0);
+}
 
 void clearCamera() {
     int n = 0;
@@ -302,6 +317,8 @@ int arrAverage(int* arr, int length) {
 
 
 int main(int argc, char** argv) {
+    struct timeval start_time;
+    gettimeofday(&start_time, NULL);
     create_connect();
     create_drive_straight(0);
     
@@ -320,6 +337,9 @@ int main(int argc, char** argv) {
     clearCamera();
     preformApproach(false);
     fithRouteen();
+    sixthRouteen();
+    struct timeval end_time;
+    gettimeofday(&end_time, NULL);
     
-    thirdRouteen();
+    printf("program complete.  Elapsed time in seconds is: %i.\n", (int) (end_time.tv_sec)-(int) (start_time.tv_sec));
 }

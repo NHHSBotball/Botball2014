@@ -16,7 +16,7 @@ extern "C" {
 #define CLAW_CLOSE_AMOUNT 700
 #define CLAW_OPEN_AMOUNT -400
 
-#define CLAW_UP_POSITION 1150  //1300
+#define CLAW_UP_POSITION 1230  //1300
 #define CLAW_MIDDLE_POSITION 410
 
     
@@ -28,11 +28,11 @@ void raw_raise_claw_to(int pos) {
 }
 
 void raise_claw_to(int pos) {
-    if (pos - get_servo_position(0) < -50) {
-        raw_raise_claw_to(get_servo_position(0) - 50);
-        msleep(100);
+    if (pos - get_servo_position(0) < -10) {
+        raw_raise_claw_to(get_servo_position(0) - 10);
+        msleep(50);
         raise_claw_to(pos);
-    } else if (pos - get_servo_position(0) > 50) {
+    } else if (pos - get_servo_position(0) > 10) {
         raw_raise_claw_to(pos);
           
     } else {
