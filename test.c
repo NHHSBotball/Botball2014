@@ -37,7 +37,7 @@ int average(int i1, int i2, int i3);
 int arrAverage(int* arr, int length);
 int preformApproach(bool leftCube);
 void fourthRouteen();
-
+void clearCamera();
 
 void openingRouteen() {
     create_drive_straight(0);
@@ -73,8 +73,8 @@ void secondRouteen(int xSum) {
     create_drive_straight(200);
     msleep(271);
     create_drive_straight(0);
-    create_spin_CW(150);
-    msleep(1350);   //This is the code the make a 90% turn.
+    create_spin_CW(100);
+    msleep(2040);   //This is the     ORIGINAL  REAL SUPER GOOD   code the make a 90% turn.
     create_drive_straight(0);
     create_drive_straight(-300);
     msleep(3000);
@@ -100,7 +100,7 @@ void thirdRouteen() {
 
     create_drive_straight(-70);
 
-    msleep(1900);
+    msleep(1980);
 
     move_claw_amount(CLAW_OPEN_AMOUNT);
 create_drive_straight(0);
@@ -123,7 +123,7 @@ void fourthRouteen() {
     msleep(1300);  //90% turn value.
     create_drive_straight(0);
     create_drive_straight(300);
-    msleep(2100);
+    msleep(2700);
     create_drive_straight(0);
     
     create_spin_CW(150);
@@ -132,7 +132,8 @@ void fourthRouteen() {
     msleep(1500);
     create_drive_straight(0);
     create_spin_CCW(150);
-    msleep(300);
+    msleep(270);
+    create_drive_straight(0);
 }
 
 
@@ -157,28 +158,17 @@ void fithRouteen() {
     create_drive_straight(0);
 }
 
-int main(int argc, char** argv) {
-    create_connect();
-    create_drive_straight(0);
-    
-    raise_claw_to(CLAW_UP_POSITION);
-    enable_servos();
-    msleep(1000);
-    printf("camera open response: %i\n", camera_open());
-    
-    create_spin_CW(150);
-    msleep(1270);
-    create_drive_straight(0);
 
-    secondRouteen(preformApproach(false));  //Second routeen and fith routeen do almost the same thing.
-    thirdRouteen();
-    fourthRouteen();
-    preformApproach(false);
-    fithRouteen();
-    thirdRouteen();
+
+void clearCamera() {
+    int n = 0;
+    while (n < 10) {
+        camera_update();
+        msleep(500);
+        n++;
+        
+    }
 }
-
-
 int preformApproach(bool leftCube) {
     bool possibleApproach = false;
     
@@ -192,10 +182,10 @@ int preformApproach(bool leftCube) {
     int xEarlySum = 0;
     
     while (true) {
-        msleep(SLEEP_TIME);
+        
         
         camera_update();
-        
+        msleep(SLEEP_TIME);
         // **** GET NEW VALUE ****
         if (get_object_count(0) > 1) {
             int lobj0Area = get_object_area(0,0);
@@ -308,4 +298,28 @@ int arrAverage(int* arr, int length) {
         avr += arr[i];
     }
     return avr/length;
+}
+
+
+int main(int argc, char** argv) {
+    create_connect();
+    create_drive_straight(0);
+    
+    raise_claw_to(CLAW_UP_POSITION);
+    enable_servos();
+    msleep(1000);
+    printf("camera open response: %i\n", camera_open());
+    
+    create_spin_CW(150);
+    msleep(1200);
+    create_drive_straight(0);
+
+    secondRouteen(preformApproach(false));  //Second routeen and fith routeen do almost the same thing.
+    thirdRouteen();
+    fourthRouteen();
+    clearCamera();
+    preformApproach(false);
+    fithRouteen();
+    
+    thirdRouteen();
 }
