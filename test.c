@@ -169,10 +169,10 @@ void sixthRouteen() {
     create_drive_straight(0);
 
     create_drive_straight(-70);
-    msleep(2000);
-
+    msleep(1900);
+    create_drive_straight(0);
     move_claw_amount(CLAW_OPEN_AMOUNT);
-create_drive_straight(0);
+
 }
 
 void clearCamera() {
@@ -323,7 +323,9 @@ int main(int argc, char** argv) {
     create_drive_straight(0);
     
     raise_claw_to(CLAW_UP_POSITION);
-    enable_servos();
+    enable_servo(1);
+    enable_servo(3);
+    
     msleep(1000);
     printf("camera open response: %i\n", camera_open());
     
@@ -331,13 +333,16 @@ int main(int argc, char** argv) {
     msleep(1200);
     create_drive_straight(0);
 
-    secondRouteen(preformApproach(false));  //Second routeen and fith routeen do almost the same thing.
+    secondRouteen(preformApproach(true));  //Second routeen and fith routeen do almost the same thing.
     thirdRouteen();
     fourthRouteen();
     clearCamera();
     preformApproach(false);
     fithRouteen();
     sixthRouteen();
+    create_drive_straight(150);
+    msleep(100);
+    disable_servos();
     struct timeval end_time;
     gettimeofday(&end_time, NULL);
     
