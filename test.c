@@ -65,10 +65,10 @@ void secondRouteen(int xSum) {
     msleep(511);
     create_drive_straight(0);
     create_spin_CCW(150);
-    msleep(1210 + (xSum - 1000) / 30);
+    msleep(1210 + (xSum - 1000) / 25);
     create_drive_straight(0);
     create_drive_straight(-300);
-    msleep(6500);
+    msleep(8000);
     create_drive_straight(0);
     create_drive_straight(200);
     msleep(271);
@@ -77,7 +77,7 @@ void secondRouteen(int xSum) {
     msleep(1350);   //This is the code the make a 90% turn.
     create_drive_straight(0);
     create_drive_straight(-300);
-    msleep(2000);
+    msleep(3000);
     create_drive_straight(0);
 }
 
@@ -112,23 +112,27 @@ create_drive_straight(0);
 
 void fourthRouteen() {
     create_drive_straight(150);
-    msleep(170);
+    msleep(900);
     create_drive_straight(0);
     raise_claw_to(CLAW_UP_POSITION);
-    create_drive_straight(-200);
-    msleep(700);
+    create_drive_straight(-300);
+    msleep(2700);
     create_drive_straight(0);
     create_drive_straight(150);
     create_spin_CW(150);
-    msleep(1350);  //90% turn value.
+    msleep(1300);  //90% turn value.
     create_drive_straight(0);
-    create_drive_straight(150);
-    msleep(800);
+    create_drive_straight(300);
+    msleep(2100);
     create_drive_straight(0);
     
     create_spin_CW(150);
-    msleep(1350);  //90% turn value.
+    msleep(1400);  //90% turn value.
+    create_drive_straight(300);
+    msleep(1500);
     create_drive_straight(0);
+    create_spin_CCW(150);
+    msleep(300);
 }
 
 
@@ -163,7 +167,7 @@ int main(int argc, char** argv) {
     printf("camera open response: %i\n", camera_open());
     
     create_spin_CW(150);
-    msleep(1350); 
+    msleep(1270);
     create_drive_straight(0);
 
     secondRouteen(preformApproach(false));  //Second routeen and fith routeen do almost the same thing.
@@ -253,9 +257,9 @@ int preformApproach(bool leftCube) {
         }
         if (possibleApproach) {
             printf("initial approach complete.\n");
-            printf("finished final approach routeen.\n");
+            
             create_drive_straight(-60);
-            while (analog(0) > 800) {
+            while (analog(0) > 830) {
             }
             printf("xsum: %i\n", xSum);
             printf("xearly sum: %i\n", xEarlySum);
@@ -263,7 +267,7 @@ int preformApproach(bool leftCube) {
             create_drive_straight(0);
             move_claw_amount(CLAW_CLOSE_AMOUNT);
             motor(0, 4);
-            
+            printf("finished final approach routeen.\n");
             return xSum; 
         }
         

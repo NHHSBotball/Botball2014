@@ -14,10 +14,10 @@ extern "C" {
 #include <kovan/kovan.h>
     
 #define CLAW_CLOSE_AMOUNT 700
-#define CLAW_OPEN_AMOUNT -200
+#define CLAW_OPEN_AMOUNT -400
 
-#define CLAW_UP_POSITION 1300
-#define CLAW_MIDDLE_POSITION 600
+#define CLAW_UP_POSITION 1150  //1300
+#define CLAW_MIDDLE_POSITION 410
 
     
 void raw_raise_claw_to(int pos) {
