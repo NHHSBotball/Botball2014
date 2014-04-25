@@ -8,7 +8,9 @@
 int main(int argc, char** argv) {
    
     create_connect();
+    motor(0,2);
     raise_claw_to(CLAW_MIDDLE_POSITION);
+    
     enable_servos();
     create_drive_straight(-70);
     

@@ -264,7 +264,7 @@ int preformApproach(bool leftCube) {
             printf("initial approach complete.\n");
             
             create_drive_straight(-60);
-            while (analog(0) > 830) {
+            while (analog(0) > 810) {
             }
             printf("xsum: %i\n", xSum);
             printf("xearly sum: %i\n", xEarlySum);
