@@ -28,7 +28,7 @@
 #define SLEEP_TIME 10
 
 #define DRIVE_TOLERANCE 15
-
+#define CUBE_APPROACH_EXTRA_OFFSET 0
 #define APPROACH_TOLERANCE 10
 
 #define ARC_TURN_RADIUS_CONSTANT 50000 // 75000
@@ -119,7 +119,7 @@ void fourthRouteen() {
     msleep(1300);  //90% turn value.
     create_drive_straight(0);
     create_drive_straight(300);
-    msleep(3200);
+    msleep(2400);
     create_drive_straight(0);
     
     create_spin_CW(150);
@@ -128,7 +128,7 @@ void fourthRouteen() {
     msleep(1500);
     create_drive_straight(0);
     create_spin_CCW(150);
-    msleep(170);
+    msleep(260);
     create_drive_straight(0);
 }
 
@@ -143,14 +143,18 @@ void fithRouteen() {
     create_drive_straight(-300);
     msleep(4500);
     create_drive_straight(0);
+    
+    
+    
+    create_drive_straight(0);
     create_drive_straight(200);
     msleep(271);
     create_drive_straight(0);
-    create_spin_CW(150);
-    msleep(1350);   //This is the code the make a 90% turn.
+    create_spin_CW(100);
+    msleep(2040);   //This is the     ORIGINAL  REAL SUPER GOOD   code the make a 90% turn.
     create_drive_straight(0);
     create_drive_straight(-300);
-    msleep(2000);
+    msleep(3000);
     create_drive_straight(0);
 }
 
@@ -169,7 +173,7 @@ void sixthRouteen() {
     create_drive_straight(0);
 
     create_drive_straight(-70);
-    msleep(1900);
+    msleep(2180);
     create_drive_straight(0);
     move_claw_amount(CLAW_OPEN_AMOUNT);
 
@@ -205,8 +209,8 @@ int preformApproach(bool leftCube) {
         if (get_object_count(0) > 1) {
             int lobj0Area = get_object_area(0,0);
             int lobj1Area = get_object_area(0,1);
-            int lobj1X = get_object_center_x(0,1) - get_camera_width() / 2;
-            int lobj0X = get_object_center_x(0,0) - get_camera_width() / 2;
+            int lobj1X = get_object_center_x(0,1) - get_camera_width() / 2 + CUBE_APPROACH_EXTRA_OFFSET;
+            int lobj0X = get_object_center_x(0,0) - get_camera_width() / 2 + CUBE_APPROACH_EXTRA_OFFSET;
             if (lobj0Area - lobj1Area < CUBE_SIZE_DIFFERENCE * lobj0Area) {
                 printf("Detecting two cubes, going with one on right.  Areas are: %i, %i.  Xs are: %i, %i.\n", lobj0Area, lobj1Area, lobj0X, lobj1X);
                 if (leftCube ? lobj0X < lobj1X : lobj0X > lobj1X) {
@@ -220,11 +224,11 @@ int preformApproach(bool leftCube) {
                 }
             } else {
                 objArea[objDataIndex] = get_object_area(0, 0);
-                objX[objDataIndex] = get_object_center_x(0, 0) - get_camera_width() / 2;
+                objX[objDataIndex] = get_object_center_x(0, 0) - get_camera_width() / 2+ CUBE_APPROACH_EXTRA_OFFSET;
             }
         } else if (get_object_count(0) > 0) {
             objArea[objDataIndex] = get_object_area(0,0);
-            objX[objDataIndex] = get_object_center_x(0,0) - get_camera_width() / 2;
+            objX[objDataIndex] = get_object_center_x(0,0) - get_camera_width() / 2+ CUBE_APPROACH_EXTRA_OFFSET;
         } else {
             printf("did not find object\n");
             continue;
@@ -333,14 +337,20 @@ int main(int argc, char** argv) {
     msleep(1200);
     create_drive_straight(0);
 
-    secondRouteen(preformApproach(true));  //Second routeen and fith routeen do almost the same thing.
+    secondRouteen(preformApproach(false));  //Second routeen and fith routeen do almost the same thing.
     thirdRouteen();
     fourthRouteen();
     clearCamera();
     preformApproach(false);
     fithRouteen();
     sixthRouteen();
+    
+    
+    
+    
     create_drive_straight(150);
+    
+    
     msleep(100);
     disable_servos();
     struct timeval end_time;
