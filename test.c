@@ -39,6 +39,22 @@ int preformApproach(bool leftCube);
 void fourthRouteen();
 void clearCamera();
 
+int wait = 0;
+void kill();
+void shutDownAfter(int seconds) {
+    wait = seconds;
+    thread tr = thread_create(kill);
+    thread_start(tr);
+    
+}
+void kill() {
+    printf("killing in %i.", wait * 1000);
+    msleep(wait * 1000);
+    disable_servos();
+    create_drive_straight(0);
+    motor(0,0);
+    exit(1);
+}
 void openingRouteen() {
     create_drive_straight(0);
     create_drive_straight(-300);
@@ -268,7 +284,7 @@ int preformApproach(bool leftCube) {
             printf("initial approach complete.\n");
             
             create_drive_straight(-60);
-            while (analog(0) > 810) {
+            while (analog(0) > 840) {
             }
             printf("xsum: %i\n", xSum);
             printf("xearly sum: %i\n", xEarlySum);
@@ -321,6 +337,7 @@ int arrAverage(int* arr, int length) {
 
 
 int main(int argc, char** argv) {
+    shutDownAfter(118);
     struct timeval start_time;
     gettimeofday(&start_time, NULL);
     create_connect();
