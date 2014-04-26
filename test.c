@@ -284,7 +284,13 @@ int preformApproach(bool leftCube) {
             printf("initial approach complete.\n");
             
             create_drive_straight(-60);
-            while (analog(0) > 840) {
+            struct timeval that_start_time;
+            gettimeofday(&that_start_time, NULL);
+            struct timeval that_end_time;
+            gettimeofday(&that_end_time, NULL);
+            while (analog(0) > 840 && that_end_time.tv_sec - that_start_time.tv_sec < 5) {
+                printf("top hat: %i\n");
+                gettimeofday(&that_end_time, NULL);
             }
             printf("xsum: %i\n", xSum);
             printf("xearly sum: %i\n", xEarlySum);
