@@ -7,6 +7,12 @@
 
 int main(int argc, char** argv) {
    
+    set_analog_pullup(0, false);
+    while (true) {
+        printf("analog 0: %i.\n", analog(0));
+    }
+    
+    
     create_connect();
     raise_claw_to(CLAW_UP_POSITION);
     enable_servos();

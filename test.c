@@ -76,6 +76,16 @@ void openingRouteen() {
 }
 
 void secondRouteen(int xSum) {
+    //ADDITION to second routeen
+    create_spin_CCW(150);
+    msleep(400);
+    create_spin_CW(150);
+    msleep(400);
+    
+  
+    
+    
+    
     create_drive_straight(0);
     create_drive_straight(150);
     msleep(511);
@@ -288,8 +298,7 @@ int preformApproach(bool leftCube) {
             gettimeofday(&that_start_time, NULL);
             struct timeval that_end_time;
             gettimeofday(&that_end_time, NULL);
-            while (analog(0) > 840 && that_end_time.tv_sec - that_start_time.tv_sec < 5) {
-                printf("top hat: %i\n");
+            while (analog(0) > 910 && that_end_time.tv_sec - that_start_time.tv_sec < 5) {//            !!!!!!!!!!!!!!!!!was 840
                 gettimeofday(&that_end_time, NULL);
             }
             printf("xsum: %i\n", xSum);
@@ -342,7 +351,9 @@ int arrAverage(int* arr, int length) {
 }
 
 
+int mainDemo(int argc, char** argv);
 int main(int argc, char** argv) {
+    
     shutDownAfter(118);
     struct timeval start_time;
     gettimeofday(&start_time, NULL);
@@ -355,6 +366,10 @@ int main(int argc, char** argv) {
     
     msleep(1000);
     printf("camera open response: %i\n", camera_open());
+    
+    
+    //return mainDemo(argc, argv);
+    
     
     create_spin_CW(150);
     msleep(1200);
@@ -380,4 +395,20 @@ int main(int argc, char** argv) {
     gettimeofday(&end_time, NULL);
     
     printf("program complete.  Elapsed time in seconds is: %i.\n", (int) (end_time.tv_sec)-(int) (start_time.tv_sec));
+}
+
+
+
+int mainDemo(int argc, char** argv) {
+    printf("starting demo mode\n");
+    raise_claw_to(CLAW_UP_POSITION + 240);
+    preformApproach(false);
+    create_drive_straight(150);
+    msleep(1500);
+    create_drive_straight(0);
+    
+    move_claw_amount(CLAW_OPEN_AMOUNT);
+    disable_servos();
+    motor(0, 0);
+    return 0;
 }
