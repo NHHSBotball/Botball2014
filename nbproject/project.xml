@@ -12,6 +12,7 @@
             <sourceRootList>
                 <sourceRootElem>*.c</sourceRootElem>
                 <sourceRootElem>*.c</sourceRootElem>
+                <sourceRootElem>upload</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

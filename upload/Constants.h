@@ -19,9 +19,10 @@ extern "C" {
 #define CLAW_LEFT_RIGHT 2
 
     
-#define CLAW_FRONT_THREASHOLD 891
-#define CLAW_LEFT_THREASHOLD 630
+#define CLAW_FRONT_THREASHOLD 500
     
+#define CLAW_LEFT_THREASHOLD 500
+#define TOLERANCE_MARGEN 50
 
 #ifdef	__cplusplus
 }
