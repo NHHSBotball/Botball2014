@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     //move_claw_amount(CLAW_CLOSE_AMOUNT);
     //motor(0, 5);
     msleep(1000);
-    raise_claw_to(400);
+    raise_claw_to(410);
     struct timeval current_time;
     struct timeval start_time;
     gettimeofday(&start_time, NULL);

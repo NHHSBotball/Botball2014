@@ -16,7 +16,7 @@ extern "C" {
 #define CLAW_CLOSE_AMOUNT 700
 #define CLAW_OPEN_AMOUNT -280
 
-#define CLAW_UP_POSITION 1350  //1300
+#define CLAW_UP_POSITION 450  //1300
 #define CLAW_MIDDLE_POSITION 220  //350
 
     
