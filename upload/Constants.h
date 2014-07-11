@@ -12,17 +12,12 @@
 extern "C" {
 #endif
 
-#define CLAW_UP_DOWN 0
-
-#define CLAW_FRONT_BACK 1
-
-#define CLAW_LEFT_RIGHT 2
-
+#define CLAW_LEFT 0
     
-#define CLAW_FRONT_THREASHOLD 500
-    
-#define CLAW_LEFT_THREASHOLD 500
-#define TOLERANCE_MARGEN 50
+
+#define CLAW_RIGHT 2
+#define SWEEPER 1
+
 
 #ifdef	__cplusplus
 }

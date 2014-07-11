@@ -11,6 +11,7 @@
       <itemPath>upload/all-off.c</itemPath>
       <itemPath>upload/claw-utils.h</itemPath>
       <itemPath>upload/create-drive.c</itemPath>
+      <itemPath>upload/drive-utils.h</itemPath>
       <itemPath>upload/primary.c</itemPath>
       <itemPath>upload/test.c</itemPath>
       <itemPath>upload/test2.c</itemPath>
@@ -60,6 +61,8 @@
       <item path="upload/claw-utils.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="upload/create-drive.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="upload/drive-utils.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="upload/primary.c" ex="false" tool="0" flavor2="0">
       </item>
