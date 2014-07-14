@@ -19,26 +19,36 @@ extern "C" {
 #define CLAW_UP_POSITION 450  //1300
 #define CLAW_MIDDLE_POSITION 220  //350
 
-#define BOTGUY_CLAW_PORT_LEFT 0
+#define BOTGUY_CLAW_PORT_LEFT 3
 #define BOTGUY_CLAW_PORT_RIGHT 2
-
-    void raise_botguy_to(int pos) {
-        set_servo_position(BOTGUY_CLAW_PORT_LEFT, pos);
-        set_servo_position(BOTGUY_CLAW_PORT_RIGHT, 2047 - pos);
-    }
-    void move_botguy_claw_amount(int amount) {
-        if (amount < 0) {
-            motor(0, -100);
-            msleep(-amount);
-        } else {
-            motor(0, 100);
-            msleep(amount);
-        }
-
-        motor(0, 0);
+#define BOTGUY_GRAB_PORT 0
+#define BOTGUY_CLAW_OPEN 0
+#define BOTGUY_CLAW_CLOSED 546
+#define BOTGUY_CLAW_DOWN 0
+#define BOTGUY_CLAW_UP 700
     
+    
+#define CUBE_KNOCK_PORT 1
+#define CUBE_KNOCK_UP 1654
+#define CUBE_KNOCK_DOWN 0   
+
+    void raise_botguy_to(int rpos) {
+    int lpos = rpos + 874;
+        set_servo_position(BOTGUY_CLAW_PORT_LEFT, 2047 - lpos);
+        set_servo_position(BOTGUY_CLAW_PORT_RIGHT, rpos);
+    }
+    void move_botguy_claw_to(int pos) {
+        set_servo_position(BOTGUY_GRAB_PORT, pos);
     }
 
+    void close_botguy_claw() {
+        move_botguy_claw_to(BOTGUY_CLAW_CLOSED);
+    }
+    
+    void open_botguy_claw() {
+        move_botguy_claw_to(BOTGUY_CLAW_OPEN);
+    }
+    
     void raw_raise_claw_to(int pos) {
         set_servo_position(0, pos);
         set_servo_position(1, pos);

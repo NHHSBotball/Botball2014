@@ -18,14 +18,44 @@ extern "C" {
 
 #define TPS_TOLERANCE_MARGEN 100
 #define MOTOR_SPEED_INCREMENT 1
+
+#define BOTGUY_MOTOR_LEFT 0
+#define BOTGUY_MOTOR_RIGHT 1
+
+#define LEFT_WHEEL_POWER 83
+#define RIGHT_WHEEL_POWER -79
+
+    void driveStraight() {
+        //motor(BOTGUY_MOTOR_LEFT, 0);
+        //motor(BOTGUY_MOTOR_RIGHT, 0);
+        motor(BOTGUY_MOTOR_LEFT, LEFT_WHEEL_POWER);
+        motor(BOTGUY_MOTOR_RIGHT, RIGHT_WHEEL_POWER);
+    }
     
+    void driveSlow() {
+        
+        motor(BOTGUY_MOTOR_LEFT, LEFT_WHEEL_POWER / 2 + 11);
+        motor(BOTGUY_MOTOR_RIGHT, RIGHT_WHEEL_POWER / 2);
+    }
+    
+    void driveBackward() {
+
+        motor(BOTGUY_MOTOR_LEFT, -LEFT_WHEEL_POWER);
+        motor(BOTGUY_MOTOR_RIGHT, -RIGHT_WHEEL_POWER);
+    }
+    void stop() {
+        
+        motor(BOTGUY_MOTOR_LEFT, 0);
+        motor(BOTGUY_MOTOR_RIGHT, 0);
+    }
+
     double measureTicksPerASecond(int motor, int tickCount) {
         struct timeval start_time;
         struct timeval stop_time;
-        
+
         clear_motor_position_counter(motor);
         gettimeofday(&start_time, NULL);
-        
+
         int motorPos = get_motor_position_counter(motor);
         if (tickCount > 0) {
             while (motorPos < tickCount) {
@@ -41,12 +71,13 @@ extern "C" {
         double secondsPerATick = travelTime / tickCount;
         return 1 / secondsPerATick;
     }
-    
+
     double getTicksPerASecond(int motorNum) {
         return measureTicksPerASecond(motorNum, 300);
     }
-    
+
     int gmotorNum1 = -1, gmotorNum2 = -1, gticksPerASecond = -1, gstartingMotorPower = -1;
+
     void trueMavRunner() {
         int startingMotorPower = gstartingMotorPower;
         int ticksPerASecond = gticksPerASecond;
@@ -56,7 +87,7 @@ extern "C" {
         int currentMotorPower2 = startingMotorPower;
         int tps = 0;
         while (true) {
-            
+
             tps = getTicksPerASecond(motorNum1);
             if (tps + TPS_TOLERANCE_MARGEN < ticksPerASecond) {
                 printf("making ajustment1+\n");
@@ -87,8 +118,9 @@ extern "C" {
             }
         }
     }
+
     thread trueMav(int motorNum1, int motorNum2, int ticksPerASecond) {
-        
+
         thread t = thread_create(trueMavRunner);
         gmotorNum1 = motorNum1;
         gmotorNum2 = motorNum2;

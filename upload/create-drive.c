@@ -60,15 +60,15 @@ int main(int argc, char** argv) {
         char ch = getch();
         switch (ch) {
             case 'w':
-                printf("create_drive_straight(-300);\n\r");
-                fprintf(logfile, "create_drive_straight(-300);\n\r");
-                create_drive_straight(-300);
+                printf("create_drive_straight(-500);\n\r");
+                fprintf(logfile, "create_drive_straight(-500);\n\r");
+                create_drive_straight(-500);
                 wait_for_char();
                 break;
             case 's':
-                printf("create_drive_straight(300);\n\r");
-                fprintf(logfile, "create_drive_straight(300);\n\r");
-                create_drive_straight(300);
+                printf("create_drive_straight(500);\n\r");
+                fprintf(logfile, "create_drive_straight(500);\n\r");
+                create_drive_straight(500);
                 wait_for_char();
                 break;
             case 'a':
@@ -91,24 +91,24 @@ int main(int argc, char** argv) {
                 break;
                 
             case 't':
-                printf("raise_claw_to(1200);\n\r");
-                fprintf(logfile, "raise_claw_to(1200);\n\r");
+                printf("raise_claw_to(CLAW_UP_POSITION);\n\r");
+                fprintf(logfile, "raise_claw_to(CLAW_UP_POSITION);\n\r");
                 raise_claw_to(CLAW_UP_POSITION);
                 break;
             case 'g':
-                printf("raise_claw_to(500);\n\r");
-                fprintf(logfile, "raise_claw_to(500);\n\r");
+                printf("raise_claw_to(CLAW_MIDDLE_POSITION);\n\r");
+                fprintf(logfile, "raise_claw_to(CLAW_MIDDLE_POSITION);\n\r");
                 raise_claw_to(CLAW_MIDDLE_POSITION);
                 break;
             case 'h' :
-                printf("move_claw_amount(700);\n\r");
-                fprintf(logfile, "move_claw_amount(700);\n\r");
-                move_claw_amount(500);
+                printf("move_claw_amount(CLAW_CLOSE_AMOUNT);\n\r");
+                fprintf(logfile, "move_claw_amount(CLAW_CLOSE_AMOUNT);\n\r");
+                move_claw_amount(CLAW_CLOSE_AMOUNT);
                 break;
             case 'j' :
-                printf("move_claw_amount(-700);\n\r");
-                fprintf(logfile, "move_claw_amount(-700);\n\r");
-                move_claw_amount(-500);
+                printf("move_claw_amount(CLAW_OPEN_AMOUNT);\n\r");
+                fprintf(logfile, "move_claw_amount(CLAW_OPEN_AMOUNT);\n\r");
+                move_claw_amount(CLAW_OPEN_AMOUNT);
                 break;
                 
             case '1':

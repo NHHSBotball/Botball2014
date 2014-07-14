@@ -9,6 +9,9 @@
       <itemPath>upload/Constants.h</itemPath>
       <itemPath>upload/KMake</itemPath>
       <itemPath>upload/all-off.c</itemPath>
+      <itemPath>upload/botguy-primary.c</itemPath>
+      <itemPath>upload/calibrate.c</itemPath>
+      <itemPath>upload/camera-approach.h</itemPath>
       <itemPath>upload/claw-utils.h</itemPath>
       <itemPath>upload/create-drive.c</itemPath>
       <itemPath>upload/drive-utils.h</itemPath>
@@ -57,6 +60,12 @@
       <item path="upload/KMake" ex="false" tool="3" flavor2="0">
       </item>
       <item path="upload/all-off.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="upload/botguy-primary.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="upload/calibrate.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="upload/camera-approach.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="upload/claw-utils.h" ex="false" tool="3" flavor2="0">
       </item>
