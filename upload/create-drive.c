@@ -51,6 +51,7 @@ int main(int argc, char** argv) {
     }
     clear();
     raise_claw_to(CLAW_UP_POSITION);
+    set_servo_position(CUBE_KNOCK_PORT, CUBE_KNOCK_UP);
     enable_servos();
     while (true) {
         refresh();

@@ -25,6 +25,16 @@ extern "C" {
 #define LEFT_WHEEL_POWER 83
 #define RIGHT_WHEEL_POWER -79
 
+    void turnInPlaceCCW() {
+        
+        motor(BOTGUY_MOTOR_LEFT, LEFT_WHEEL_POWER);
+        motor(BOTGUY_MOTOR_RIGHT, -RIGHT_WHEEL_POWER);
+    }
+    void turnInPlaceCW() {
+        
+        motor(BOTGUY_MOTOR_LEFT, LEFT_WHEEL_POWER);
+        motor(BOTGUY_MOTOR_RIGHT, -RIGHT_WHEEL_POWER);
+    }
     void driveStraight() {
         //motor(BOTGUY_MOTOR_LEFT, 0);
         //motor(BOTGUY_MOTOR_RIGHT, 0);

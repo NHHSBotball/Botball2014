@@ -22,18 +22,24 @@ extern "C" {
 #define BOTGUY_CLAW_PORT_LEFT 3
 #define BOTGUY_CLAW_PORT_RIGHT 2
 #define BOTGUY_GRAB_PORT 0
+    
 #define BOTGUY_CLAW_OPEN 0
-#define BOTGUY_CLAW_CLOSED 546
-#define BOTGUY_CLAW_DOWN 0
-#define BOTGUY_CLAW_UP 700
+#define BOTGUY_CLAW_CLOSED 1900
+    
+    
+#define BOTGUY_CLAW_DOWN 800
+#define BOTGUY_CLAW_MID_UP 1000
+#define BOTGUY_CLAW_UP 1400
+#define BOTGUY_CLAW_FULL_UP 1600
+    
     
     
 #define CUBE_KNOCK_PORT 1
-#define CUBE_KNOCK_UP 1654
+#define CUBE_KNOCK_UP 1550
 #define CUBE_KNOCK_DOWN 0   
 
     void raise_botguy_to(int rpos) {
-    int lpos = rpos + 874;
+        int lpos = rpos;
         set_servo_position(BOTGUY_CLAW_PORT_LEFT, 2047 - lpos);
         set_servo_position(BOTGUY_CLAW_PORT_RIGHT, rpos);
     }
@@ -51,9 +57,9 @@ extern "C" {
     
     void raw_raise_claw_to(int pos) {
         set_servo_position(0, pos);
-        set_servo_position(1, pos);
+        //set_servo_position(1, pos);
         set_servo_position(2, 2047 - pos);
-        set_servo_position(3, 2047 - pos);
+        //set_servo_position(3, 2047 - pos);
     }
 
     void raise_claw_to(int pos) {
