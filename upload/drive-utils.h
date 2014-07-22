@@ -27,8 +27,8 @@ extern "C" {
 
     void turnInPlaceCCW() {
         
-        motor(BOTGUY_MOTOR_LEFT, LEFT_WHEEL_POWER);
-        motor(BOTGUY_MOTOR_RIGHT, -RIGHT_WHEEL_POWER);
+        motor(BOTGUY_MOTOR_LEFT, -LEFT_WHEEL_POWER);
+        motor(BOTGUY_MOTOR_RIGHT, RIGHT_WHEEL_POWER);
     }
     void turnInPlaceCW() {
         

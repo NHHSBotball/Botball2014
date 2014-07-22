@@ -123,38 +123,39 @@ extern "C" {
             printf("X consistent at: %i\n", averageX);
 
             xSum += averageX;
-            if (averageArea < 700) {
+            if (averageArea < 1800) {
                 xEarlySum += averageX;
             }
             
             gettimeofday(&currentTime, NULL);
             
-            if (getElapsedTimeMS() > 100) {
+            if (getElapsedTimeMS() > 4000) {
                 possibleApproach = true;
             }
             if (possibleApproach) {
                 printf("initial approach complete.\n"); /////EXIT POINT
                 driveStraight();
-                
+                raise_botguy_to(BOTGUY_CLAW_MID_UP);
+                msleep(300);
+                raise_botguy_to(BOTGUY_CLAW_DOWN);
+                msleep(300);
                 
                 struct timeval that_start_time;
                 gettimeofday(&that_start_time, NULL);
                 struct timeval that_end_time;
                 gettimeofday(&that_end_time, NULL);
-                while (that_end_time.tv_sec - that_start_time.tv_sec < 3 && analog(0) > 500) {//            !!!!!!!!!!!!!!!!!was 840
+                while (that_end_time.tv_sec - that_start_time.tv_sec < 2 && analog(0) > 500) {//            !!!!!!!!!!!!!!!!!was 840
                     gettimeofday(&that_end_time, NULL);
                 }
-                raise_botguy_to(BOTGUY_CLAW_MID_UP);
-                msleep(500);
-                raise_botguy_to(BOTGUY_CLAW_DOWN);
-                msleep(800);
+                
                 printf("xsum: %i\n", xSum);
                 printf("xearly sum: %i\n", xEarlySum);
                 //msleep(800);
                 stop();
                 close_botguy_claw();
-                msleep(1000);
-                raise_botguy_to(BOTGUY_CLAW_UP);
+                hold_botguy_claw_closed();
+                //msleep(1000);
+                //raise_botguy_to(BOTGUY_CLAW_UP);
                 //motor(0, 4);  //Close the claw continuously around obj.
                 printf("finished final approach routeen.\n");
                 return xSum;
@@ -292,8 +293,7 @@ extern "C" {
                 //msleep(800);
                 stop();
                 //close_botguy_claw();
-                msleep(500);
-                raise_botguy_to(BOTGUY_CLAW_MID_UP);
+                
                 //motor(0, 4);  //Close the claw continuously around obj.
                 printf("finished final approach routeen.\n");
                 return xSum;

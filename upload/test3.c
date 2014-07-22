@@ -15,10 +15,10 @@ int main(int argc, char** argv) {
     return EXIT_SUCCESS;
     //Test the claw for botguy robot (link 103)
     raise_botguy_to(BOTGUY_CLAW_DOWN);
-    move_botguy_claw_to(BOTGUY_CLAW_CLOSED); //should become a constant.
+    close_botguy_claw(); //should become a constant.
     enable_servos();
     msleep(1500);
-    move_botguy_claw_to(BOTGUY_CLAW_CLOSED);
+    //move_botguy_claw_to(BOTGUY_CLAW_CLOSED);
     raise_botguy_to(BOTGUY_CLAW_UP);
 
 
