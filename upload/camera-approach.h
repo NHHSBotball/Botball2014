@@ -144,8 +144,9 @@ extern "C" {
                 gettimeofday(&that_start_time, NULL);
                 struct timeval that_end_time;
                 gettimeofday(&that_end_time, NULL);
-                while (that_end_time.tv_sec - that_start_time.tv_sec < 2 && analog(0) > 500) {//            !!!!!!!!!!!!!!!!!was 840
+                while (that_end_time.tv_sec - that_start_time.tv_sec < 1 && analog(0) > 500) {//            !!!!!!!!!!!!!!!!!was 840
                     gettimeofday(&that_end_time, NULL);
+                    printf("thing: %i\n",  analog(0));
                 }
                 
                 printf("xsum: %i\n", xSum);
@@ -275,7 +276,7 @@ extern "C" {
             
             gettimeofday(&currentTime, NULL);
             
-            if (getElapsedTimeMS() > 4000) {
+            if (getElapsedTimeMS() > 3000) {
                 possibleApproach = true;
             }
             if (possibleApproach) {

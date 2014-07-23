@@ -44,11 +44,10 @@ int main(int argc, char** argv) {
     preformApproachCube(false, 1);
     stop();
     turnInPlaceCCW();
-    msleep(600);
+    msleep(300);
     driveStraight();
     msleep(3000);
-    driveBackward();
-    msleep(500);
+    
     turnInPlaceCW();
     msleep(700);
     driveStraight();

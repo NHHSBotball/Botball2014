@@ -34,8 +34,8 @@ extern "C" {
 
 
 
-#define CUBE_KNOCK_PORT 1
-#define CUBE_KNOCK_UP 1250
+#define CUBE_KNOCK_PORT 1  //Correct port is 1
+#define CUBE_KNOCK_UP 1450
 #define CUBE_KNOCK_DOWN 0   
 
     void raise_botguy_to(int rpos) {
@@ -64,7 +64,7 @@ extern "C" {
     }
     
     void hold_botguy_claw_closed() {
-        motor(BOTGUY_GRAB_PORT, 10);
+        motor(BOTGUY_GRAB_PORT, 40);
     }
 
     void raw_raise_claw_to(int pos) {
