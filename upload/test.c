@@ -5,16 +5,10 @@
  * Created on April 3, 2014, 5:10 PM
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <kovan/kovan.h>
-#include <stdbool.h>
-#include <string.h>
-#include <assert.h>
+
+#include "starting-routine.h"
 #include <libusb-1.0/libusb.h>
 
-#include "claw-utils.h"
-#include "Constants.h"
 
 /*
  * 
@@ -47,7 +41,6 @@ void shutDownAfter(int seconds) {
     wait = seconds;
     thread tr = thread_create(kill);
     thread_start(tr);
-
 }
 
 void kill() {
@@ -60,155 +53,6 @@ void kill() {
     motor(2, 0);
     motor(3, 0);
     exit(1);
-}
-
-void openingRouteen() {
-    create_drive_straight(0);
-    create_drive_straight(-300);
-    msleep(851);
-    create_drive_straight(0);
-    create_spin_CW(150);
-    msleep(1291);
-    create_drive_straight(0);
-    create_drive_straight(-140);
-
-    while (!digital(15)) {
-
-    }
-
-    //msleep(2031); //This block shoud be replcaed with a touch sensor check
-
-    create_drive_straight(0);
-    move_claw_amount(CLAW_CLOSE_AMOUNT);
-}
-
-void secondRouteen(int xSum) {
-    //ADDITION to second routeen
-    create_spin_CCW(150);
-    msleep(400);
-    create_spin_CW(150);
-    msleep(400);
-
-
-
-
-
-    create_drive_straight(0);
-    create_drive_straight(150);
-    msleep(511);
-    create_drive_straight(0);
-    create_spin_CCW(150);
-    msleep(1210 + (xSum - 1000) / 25);
-    create_drive_straight(0);
-    create_drive_straight(-300);
-    msleep(8000);
-    create_drive_straight(0);
-    create_drive_straight(200);
-    msleep(271);
-    create_drive_straight(0);
-    create_spin_CW(100);
-    msleep(2040); //This is the     ORIGINAL  REAL SUPER GOOD   code the make a 90% turn.
-    create_drive_straight(0);
-    create_drive_straight(-300);
-    msleep(3000);
-    create_drive_straight(0);
-}
-
-void thirdRouteen() {
-    create_drive_straight(0);
-
-    create_drive_straight(300);
-
-    msleep(1129);
-
-    create_drive_straight(0);
-
-    raise_claw_to(CLAW_MIDDLE_POSITION);
-
-    create_spin_CCW(150);
-
-    msleep(2492);
-
-    create_drive_straight(0);
-
-    create_drive_straight(-70);
-
-    msleep(1980);
-
-    move_claw_amount(CLAW_OPEN_AMOUNT);
-    create_drive_straight(0);
-}
-
-void fourthRouteen() {
-    create_drive_straight(150);
-    msleep(900);
-    create_drive_straight(0);
-    raise_claw_to(CLAW_UP_POSITION);
-    create_drive_straight(-300);
-    msleep(2700);
-    create_drive_straight(0);
-    create_drive_straight(150);
-    create_spin_CW(150);
-    msleep(1300); //90% turn value.
-    create_drive_straight(0);
-    create_drive_straight(300);
-    msleep(2400);
-    create_drive_straight(0);
-
-    create_spin_CW(150);
-    msleep(1400); //90% turn value.
-    create_drive_straight(300);
-    msleep(1500);
-    create_drive_straight(0);
-    create_spin_CCW(150);
-    msleep(260);
-    create_drive_straight(0);
-}
-
-void fithRouteen() {
-    create_drive_straight(150);
-    msleep(511);
-    create_drive_straight(0);
-    create_spin_CCW(150);
-    msleep(1210);
-    create_drive_straight(0);
-    create_drive_straight(-300);
-    msleep(4500);
-    create_drive_straight(0);
-
-
-
-    create_drive_straight(0);
-    create_drive_straight(200);
-    msleep(271);
-    create_drive_straight(0);
-    create_spin_CW(100);
-    msleep(2040); //This is the     ORIGINAL  REAL SUPER GOOD   code the make a 90% turn.
-    create_drive_straight(0);
-    create_drive_straight(-300);
-    msleep(3000);
-    create_drive_straight(0);
-}
-
-void sixthRouteen() {
-    create_drive_straight(0);
-    create_drive_straight(300);
-    msleep(1129);
-    create_drive_straight(0);
-
-    raise_claw_to(CLAW_MIDDLE_POSITION);
-
-    create_spin_CCW(150);
-
-    msleep(2492);
-
-    create_drive_straight(0);
-
-    create_drive_straight(-70);
-    msleep(2180);
-    create_drive_straight(0);
-    move_claw_amount(CLAW_OPEN_AMOUNT);
-
 }
 
 void clearCamera() {
@@ -356,41 +200,13 @@ int arrAverage(int* arr, int length) {
     return avr / length;
 }
 
-
-int mainDemo(int argc, char** argv);
-
-int main(int argc, char** argv) {
-
-    shutDownAfter(118);
-    struct timeval start_time;
-    gettimeofday(&start_time, NULL);
-    create_connect();
-    create_drive_straight(0);
-
-    //enable_servo(CLAW_LEFT);
-    //enable_servo(CLAW_RIGHT);
-
-    msleep(500);
-    printf("camera open response: %i\n", camera_open());
-
-
-    //return mainDemo(argc, argv);
-
-
+void cubeLoop() {
     while (true) {
         create_drive_straight(0);
         preformApproach(false);
         raise_claw_to(CLAW_UP_POSITION);
         enable_servo(CLAW_LEFT);
         enable_servo(CLAW_RIGHT);
-        //secondRouteen();  //Second routeen and fith routeen do almost the same thing.
-        /*thirdRouteen();
-        fourthRouteen();
-        clearCamera();
-        preformApproach(false);
-        fithRouteen();
-        sixthRouteen();
-         */
 
         msleep(1000);
 
@@ -416,22 +232,36 @@ int main(int argc, char** argv) {
         disable_servo(CLAW_RIGHT);
         clearCamera();
     }
+}
+
+int main(int argc, char** argv) {
+
+    shutDownAfter(118);
+    struct timeval start_time;
+    gettimeofday(&start_time, NULL);
+    printf("Create connecting...\n");
+    printf("camera open response: %i\n", camera_open());
+    create_connect();
+    create_drive_straight(0);
+    raise_claw_to(CLAW_UP_POSITION);
+    enable_servo(CLAW_LEFT);
+    enable_servo(CLAW_RIGHT);
+    
+    
+    printf("waiting for input...\n");
+    char s[20];
+    scanf("%s", s);
+    if (strcmp(s, "exit") == 0) {
+        return 0;
+    }
+    preformStartingRoutine();
+    msleep(500);
+    
+
+    cubeLoop();
+
     struct timeval end_time;
     gettimeofday(&end_time, NULL);
 
     printf("program complete.  Elapsed time in seconds is: %i.\n", (int) (end_time.tv_sec)-(int) (start_time.tv_sec));
-}
-
-int mainDemo(int argc, char** argv) {
-    printf("starting demo mode\n");
-    raise_claw_to(CLAW_UP_POSITION + 240);
-    preformApproach(false);
-    create_drive_straight(150);
-    msleep(1500);
-    create_drive_straight(0);
-
-    move_claw_amount(CLAW_OPEN_AMOUNT);
-    disable_servos();
-    motor(0, 0);
-    return 0;
 }

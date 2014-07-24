@@ -17,6 +17,7 @@
       <itemPath>upload/drive-utils.h</itemPath>
       <itemPath>upload/primary.c</itemPath>
       <itemPath>upload/song.h</itemPath>
+      <itemPath>upload/starting-routine.h</itemPath>
       <itemPath>upload/test.c</itemPath>
       <itemPath>upload/test2.c</itemPath>
       <itemPath>upload/test3.c</itemPath>
@@ -77,6 +78,8 @@
       <item path="upload/primary.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="upload/song.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="upload/starting-routine.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="upload/test.c" ex="false" tool="0" flavor2="0">
       </item>
