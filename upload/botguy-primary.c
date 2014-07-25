@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
     msleep(700);
     stop();
     driveStraight();
-    msleep(1500);
+    msleep(1900);//was 1500
     stop();
     turnInPlaceCW();
     msleep(500);
@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     preformApproachCube(false, 1);
     stop();
     turnInPlaceCCW();
-    msleep(300);
+    msleep(600);
     driveStraight();
     msleep(3000);
     

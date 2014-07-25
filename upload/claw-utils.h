@@ -30,13 +30,13 @@ extern "C" {
 #define BOTGUY_CLAW_DOWN 800
 #define BOTGUY_CLAW_MID_UP 1000
 #define BOTGUY_CLAW_UP 1400
-#define BOTGUY_CLAW_FULL_UP 1800
+#define BOTGUY_CLAW_FULL_UP 1750
 
 
 
 #define CUBE_KNOCK_PORT 1  //Correct port is 1
-#define CUBE_KNOCK_UP 1475
-    #define CUBE_KNOCK_UP2 1500
+#define CUBE_KNOCK_UP 1400
+#define CUBE_KNOCK_UP2 1400
 #define CUBE_KNOCK_DOWN 0   
 
     void raise_botguy_to(int rpos) {

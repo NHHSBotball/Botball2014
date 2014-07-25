@@ -201,6 +201,7 @@ int arrAverage(int* arr, int length) {
 }
 
 void cubeLoop() {
+    disable_servos();
     while (true) {
         create_drive_straight(0);
         preformApproach(false);
@@ -208,24 +209,40 @@ void cubeLoop() {
         enable_servo(CLAW_LEFT);
         enable_servo(CLAW_RIGHT);
 
-        msleep(1000);
-
+        create_drive_straight(200);
+        
+        msleep(800);
+        
         create_spin_CW(100); //PERFECT 90
         msleep(2040);
         create_drive_straight(0);
-        create_spin_CW(100); //PERFECT 90
-        msleep(2040);
-        create_drive_straight(0);
+        create_drive_straight(200);
+        
+        while (!(get_create_rbump() || get_create_lbump())) {
 
+        }
+
+        
+        
+        create_spin_CW(100); 
+        while (!digital(9)) {
+        }
+        create_drive_straight(0);
+        
+        create_spin_CCW(100);
+        msleep(400);
+        
+        
+        
         create_drive_straight(-150);
         msleep(3000);
         move_claw_amount(CLAW_OPEN_AMOUNT);
         create_drive_straight(150);
         msleep(1000);
-        create_spin_CW(100); //PERFECT 90
+        create_spin_CCW(100); //PERFECT 90
         msleep(2040);
         create_drive_straight(0);
-        create_spin_CW(100); //PERFECT 90
+        create_spin_CCW(100); //PERFECT 90
         msleep(2040);
         create_drive_straight(0);
         disable_servo(CLAW_LEFT);
@@ -256,6 +273,20 @@ int main(int argc, char** argv) {
     }
     preformStartingRoutine();
     msleep(500);
+    
+    
+    create_drive_straight(300);
+    msleep(700);
+    create_drive_straight(0);
+    create_spin_CCW(150);
+    msleep(1000);
+    create_drive_straight(-300);
+    msleep(1000);
+    create_spin_CW(150);
+    msleep(1300);
+    
+    create_drive_straight(0);
+    printf("facing cubes.\n");
     
 
     cubeLoop();
