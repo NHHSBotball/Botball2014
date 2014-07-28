@@ -17,6 +17,8 @@ extern "C" {
 
 #define CLAW_RIGHT 2
 #define SWEEPER 1
+    
+#define RAMP_TOP_HAT 5
 
 
 #ifdef	__cplusplus

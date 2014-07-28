@@ -17,8 +17,10 @@ int main(int argc, char** argv) {
     if (strcmp(s, "exit") == 0) {
         return 0;
     }
-    preformStartingRoutine();
+    driveAdaptive(2000); 
+    create_drive_straight(0);
     return 0;
+    
 }
 
 

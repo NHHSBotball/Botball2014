@@ -31,7 +31,6 @@
 int average(int i1, int i2, int i3);
 int arrAverage(int* arr, int length);
 int preformApproach(bool leftCube);
-void fourthRouteen();
 void clearCamera();
 
 int wait = 0;
@@ -57,7 +56,7 @@ void kill() {
 
 void clearCamera() {
     int n = 0;
-    while (n < 10) {
+    while (n < 2) {
         camera_update();
         msleep(500);
         n++;
@@ -314,7 +313,7 @@ int main(int argc, char** argv) {
     if (strcmp(s, "exit") == 0) {
         return 0;
     }
-    //preformStartingRoutine();
+    preformStartingRoutine();
     //move_claw_amount(CLAW_OPEN_AMOUNT);
     msleep(500);
     /*
