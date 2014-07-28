@@ -138,7 +138,7 @@ int preformApproach(bool leftCube) {
         if (averageArea < 700) {
             xEarlySum += averageX;
         }
-        if (averageArea > 2000) {
+        if (averageArea > 2600) {//was 2000
             possibleApproach = true;
         }
         if (possibleApproach) {
@@ -149,7 +149,7 @@ int preformApproach(bool leftCube) {
             gettimeofday(&that_start_time, NULL);
             struct timeval that_end_time;
             gettimeofday(&that_end_time, NULL);
-            while (analog(0) > 910 && that_end_time.tv_sec - that_start_time.tv_sec < 5) {//            !!!!!!!!!!!!!!!!!was 840
+            while (analog(0) > 970 && that_end_time.tv_sec - that_start_time.tv_sec < 5) {//            !!!!!!!!!!!!!!!!!was 840
                 gettimeofday(&that_end_time, NULL);
             }
             printf("xsum: %i\n", xSum);
@@ -201,66 +201,109 @@ int arrAverage(int* arr, int length) {
 }
 
 void cubeLoop() {
-    disable_servos();
+    //disable_servos();
+    raise_claw_to(CLAW_DOWN_POSITION);
     while (true) {
         create_drive_straight(0);
-        preformApproach(false);
-        raise_claw_to(CLAW_UP_POSITION);
-        enable_servo(CLAW_LEFT);
-        enable_servo(CLAW_RIGHT);
-
-        create_drive_straight(200);
+        printf("Starting app.\n");
+        preformApproach(true);
         
-        msleep(800);
+        
+        
+        msleep(900);
+        create_drive_straight(150);
+        msleep(2100);
+        create_drive_straight(0);
+        raise_claw_to(CLAW_UP_POSITION);
         
         create_spin_CW(100); //PERFECT 90
-        msleep(2040);
-        create_drive_straight(0);
-        create_drive_straight(200);
-        
-        while (!(get_create_rbump() || get_create_lbump())) {
-
-        }
-
-        
-        
-        create_spin_CW(100); 
-        while (!digital(9)) {
-        }
+        msleep(2740);
         create_drive_straight(0);
         
-        create_spin_CCW(100);
-        msleep(400);
         
+        create_drive_straight(300);
+        msleep(4000);
+        create_spin_CCW(150);
         
-        
-        create_drive_straight(-150);
-        msleep(3000);
-        move_claw_amount(CLAW_OPEN_AMOUNT);
-        create_drive_straight(150);
+        msleep(600);
+        create_drive_straight(0);
+        create_drive_straight(300);
         msleep(1000);
-        create_spin_CCW(100); //PERFECT 90
-        msleep(2040);
         create_drive_straight(0);
-        create_spin_CCW(100); //PERFECT 90
-        msleep(2040);
+        
+        create_spin_CW(150);
+        
+        msleep(600);
         create_drive_straight(0);
-        disable_servo(CLAW_LEFT);
-        disable_servo(CLAW_RIGHT);
+        
+        create_drive_straight(300);
+        msleep(1000);
+        create_drive_straight(0);
+        
+        
+        create_spin_CCW(150);
+        
+        msleep(600);
+        create_drive_straight(0);
+        
+        create_drive_straight(300);
+        msleep(1000);
+        create_drive_straight(0);
+        
+                create_spin_CCW(150);
+
+        while (analog(3) > 700) {}
+        create_drive_straight(0);
+        create_spin_CW(150);
+        msleep(900);
+        create_drive_straight(-300);
+        msleep(1000);
+        create_drive_straight(0);
+        create_spin_CW(150);
+        
+        msleep(2300);
+        
+        
+        create_drive_straight(0);
+        
+        create_drive_straight(-150);  // DROPPING CIN CANister!!!!!!!!!!!!!!!!!!!!!!!!
+        msleep(900);
+        
+        create_drive_straight(0);
+        msleep(500);
+        move_claw_amount(CLAW_OPEN_AMOUNT);
+        
+        
+        create_drive_straight(150);
+        msleep(900);
+        
+        
+        create_drive_straight(0);
+        create_spin_CCW(150);
+        msleep(1000);
+        create_drive_straight(0);
+        create_drive_straight(-300);
+        msleep(2000);
+        
+        create_drive_straight(0);
+        create_spin_CCW(150);
+        msleep(2400);
+        create_drive_straight(0);
+        raise_claw_to(CLAW_DOWN_POSITION);
         clearCamera();
     }
 }
 
 int main(int argc, char** argv) {
 
-    shutDownAfter(118);
+    shutDownAfter(120);
     struct timeval start_time;
     gettimeofday(&start_time, NULL);
     printf("Create connecting...\n");
     printf("camera open response: %i\n", camera_open());
     create_connect();
     create_drive_straight(0);
-    raise_claw_to(CLAW_UP_POSITION);
+    raise_claw_to(CLAW_DOWN_POSITION);//up pos
     enable_servo(CLAW_LEFT);
     enable_servo(CLAW_RIGHT);
     
@@ -271,21 +314,22 @@ int main(int argc, char** argv) {
     if (strcmp(s, "exit") == 0) {
         return 0;
     }
-    preformStartingRoutine();
+    //preformStartingRoutine();
+    //move_claw_amount(CLAW_OPEN_AMOUNT);
     msleep(500);
-    
+    /*
     
     create_drive_straight(300);
     msleep(700);
     create_drive_straight(0);
-    create_spin_CCW(150);
-    msleep(1000);
-    create_drive_straight(-300);
-    msleep(1000);
     create_spin_CW(150);
-    msleep(1300);
+    msleep(200);
+    create_drive_straight(300);
+    msleep(1000);
+    create_spin_CCW(150);
+    msleep(300);
     
-    create_drive_straight(0);
+    create_drive_straight(0);*/
     printf("facing cubes.\n");
     
 
