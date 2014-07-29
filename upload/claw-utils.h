@@ -18,7 +18,7 @@ extern "C" {
 
 #define CLAW_DOWN_POSITION 0
 #define CLAW_UP_POSITION 600  //1300
-#define CLAW_MIDDLE_POSITION 600  //350
+#define CLAW_MIDDLE_POSITION 150  //350
 
 #define BOTGUY_CLAW_PORT_LEFT 3
 #define BOTGUY_CLAW_PORT_RIGHT 2
@@ -36,8 +36,8 @@ extern "C" {
 
 
 #define CUBE_KNOCK_PORT 1  //Correct port is 1
-#define CUBE_KNOCK_UP 1413  //1413
-#define CUBE_KNOCK_UP2 1413
+#define CUBE_KNOCK_UP 1573  //1413
+#define CUBE_KNOCK_UP2 1573
 #define CUBE_KNOCK_DOWN 0   
 
     void raise_botguy_to(int rpos) {

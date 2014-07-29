@@ -204,90 +204,52 @@ void cubeLoop() {
     raise_claw_to(CLAW_DOWN_POSITION);
     while (true) {
         create_drive_straight(0);
-        printf("Starting app.\n");
+        printf("Starting approach.\n");
         preformApproach(true);
-        
-        
-        
         msleep(900);
         create_drive_straight(150);
         msleep(2100);
         create_drive_straight(0);
         raise_claw_to(CLAW_UP_POSITION);
         
-        create_spin_CW(100); //PERFECT 90
-        msleep(2740);
+        create_spin_CW(100);
+        msleep(300);
         create_drive_straight(0);
         
         
-        create_drive_straight(300);
-        msleep(4000);
-        create_spin_CCW(150);
-        
-        msleep(600);
-        create_drive_straight(0);
-        create_drive_straight(300);
-        msleep(1000);
-        create_drive_straight(0);
-        
-        create_spin_CW(150);
-        
-        msleep(600);
-        create_drive_straight(0);
-        
-        create_drive_straight(300);
-        msleep(1000);
-        create_drive_straight(0);
-        
-        
-        create_spin_CCW(150);
-        
-        msleep(600);
-        create_drive_straight(0);
-        
-        create_drive_straight(300);
-        msleep(1000);
-        create_drive_straight(0);
-        
-                create_spin_CCW(150);
+        create_drive_straight(250);
+        while (get_create_lbump() || get_create_rbump()) { //Bump against PVC
+        }
 
-        while (analog(3) > 700) {}
-        create_drive_straight(0);
-        create_spin_CW(150);
-        msleep(900);
-        create_drive_straight(-300);
-        msleep(1000);
-        create_drive_straight(0);
-        create_spin_CW(150);
-        
-        msleep(2300);
-        
-        
-        create_drive_straight(0);
-        
-        create_drive_straight(-150);  // DROPPING CIN CANister!!!!!!!!!!!!!!!!!!!!!!!!
-        msleep(900);
-        
-        create_drive_straight(0);
-        msleep(500);
-        move_claw_amount(CLAW_OPEN_AMOUNT);
-        
-        
-        create_drive_straight(150);
-        msleep(900);
-        
-        
         create_drive_straight(0);
         create_spin_CCW(150);
-        msleep(1000);
+        
+        while (analog(3) > 700) {} //Line up against PVC
+        
         create_drive_straight(0);
-        create_drive_straight(-300);
+        
+        create_drive_straight(-100);  //Approach canister
         msleep(2000);
         
+        
         create_drive_straight(0);
-        create_spin_CCW(150);
-        msleep(2400);
+        
+        
+        move_claw_amount(CLAW_OPEN_AMOUNT);
+        msleep(200);
+        
+        create_drive_straight(-100);  //Back away from canister
+        msleep(2000);
+        
+        
         create_drive_straight(0);
+        
+        
+        create_spin_CW(150);
+        msleep(400);
+        create_drive_straight(0);
+        
+        
         raise_claw_to(CLAW_DOWN_POSITION);
         clearCamera();
     }
@@ -306,7 +268,7 @@ int main(int argc, char** argv) {
     enable_servo(CLAW_LEFT);
     enable_servo(CLAW_RIGHT);
     
-    
+    printf("create battery charge: %i.\n", get_create_battery_charge());
     printf("waiting for input...\n");
     char s[20];
     scanf("%s", s);
@@ -315,6 +277,7 @@ int main(int argc, char** argv) {
     }
     preformStartingRoutine();
     //move_claw_amount(CLAW_OPEN_AMOUNT);
+    return 0;
     msleep(500);
     /*
     
