@@ -42,7 +42,7 @@ extern "C" {
 
     
     void setServoInTime(int servoPort, int pos, int timeMS) {
-        const int count = 40;
+        const int count = 120;
         int oldPos = get_servo_position(servoPort);
         int tdelta = pos - oldPos;
         int delta = tdelta / count;
@@ -173,7 +173,7 @@ extern "C" {
 
         //create_drive(-500, -2000);
 
-        setServoInTime(CUBE_KNOCK_PORT, CUBE_KNOCK_DOWN, 400);
+        setServoInTime(CUBE_KNOCK_PORT, CUBE_KNOCK_DOWN, 800);
         msleep(100);
         create_drive_straight(-400);
 
@@ -195,7 +195,7 @@ extern "C" {
         msleep(871);
 
         create_drive_straight(0);
-        set_servo_position(CUBE_KNOCK_PORT, CUBE_KNOCK_DOWN);
+        setServoInTime(CUBE_KNOCK_PORT, CUBE_KNOCK_DOWN, 700);
 
 
         create_spin_CCW(150);
@@ -228,21 +228,35 @@ extern "C" {
         raise_claw_to(CLAW_UP_POSITION);
         create_drive_straight(500);
 
-        msleep(470);
+        msleep(1970);
 
+        
+        create_spin_CCW(150);
+        
+        msleep(1000);
+        
+        create_drive_straight(500);
+
+        msleep(1670);
+        
+        
+        
+        create_spin_CCW(150);
+        
+        while (analog(3) > 700) {} //Line up against PVC corner after jerk
+        create_spin_CW(150);//Bule cobe lineup turn
+        msleep(770);
         create_drive_straight(0);
 
-        create_spin_CCW(150);//Blue cube lineup turn
-
-        msleep(500);
+        
 
         create_drive_straight(0);
 
         create_drive_straight(-500);
 
-        msleep(970);
+        msleep(1170);
         
-        create_drive(-500, 1000);  //Blue cube catch
+        create_drive(-500, 500);  //Blue cube catch
         msleep(500);
         create_drive_straight(0);
         
@@ -254,12 +268,12 @@ extern "C" {
         msleep(200);*/
 
         create_drive_straight(0);
-        return;
+       
         create_drive_straight(0);
 
         create_spin_CW(150);
 
-        msleep(3431);  //Corner setup turn
+        msleep(2631);  //Corner setup turn (almost 180)
 
         create_drive_straight(0);
 
@@ -268,8 +282,17 @@ extern "C" {
 
         }
         
-        msleep(500);
+        msleep(1300);
 
+        create_drive_straight(0);
+        
+        create_spin_CCW(150);
+        
+        while (analog(3) > 700) {} //Line up against PVC
+        create_spin_CW(150);
+        msleep(620);
+        create_drive_straight(0);
+        
         create_drive_straight(0);
 
     }

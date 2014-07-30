@@ -30,7 +30,7 @@
 
 int average(int i1, int i2, int i3);
 int arrAverage(int* arr, int length);
-int preformApproach(bool leftCube);
+int preformApproach();
 void clearCamera();
 
 int wait = 0;
@@ -45,6 +45,7 @@ void shutDownAfter(int seconds) {
 void kill() {
     printf("killing in %i.", wait * 1000);
     msleep(wait * 1000);
+    printf("killing program.\n");
     disable_servos();
     create_drive_straight(0);
     motor(0, 0);
@@ -56,7 +57,7 @@ void kill() {
 
 void clearCamera() {
     int n = 0;
-    while (n < 2) {
+    while (n < 4) {
         camera_update();
         msleep(500);
         n++;
@@ -64,7 +65,7 @@ void clearCamera() {
     }
 }
 
-int preformApproach(bool leftCube) {
+int preformApproach() {
     bool possibleApproach = false;
 
     int objX[3] = {0, 0, 0};
@@ -88,16 +89,11 @@ int preformApproach(bool leftCube) {
             int lobj1X = get_object_center_x(0, 1) - get_camera_width() / 2 + CUBE_APPROACH_EXTRA_OFFSET;
             int lobj0X = get_object_center_x(0, 0) - get_camera_width() / 2 + CUBE_APPROACH_EXTRA_OFFSET;
             if (lobj0Area - lobj1Area < CUBE_SIZE_DIFFERENCE * lobj0Area) {
-                printf("Detecting two cubes, going with one on right.  Areas are: %i, %i.  Xs are: %i, %i.\n", lobj0Area, lobj1Area, lobj0X, lobj1X);
-                if (leftCube ? lobj0X < lobj1X : lobj0X > lobj1X) {
-                    //Go with object 0
-                    objX[objDataIndex] = lobj0X;
-                    objArea[objDataIndex] = lobj0Area;
-                } else {
-                    //Go with object 1
-                    objX[objDataIndex] = lobj1X;
-                    objArea[objDataIndex] = lobj1Area;
-                }
+                printf("Detecting two cubes, going with biggest one.  Areas are: %i, %i.  Xs are: %i, %i.\n", lobj0Area, lobj1Area, lobj0X, lobj1X);
+                
+                objX[objDataIndex] = lobj0X;
+                objArea[objDataIndex] = lobj0Area;
+                
             } else {
                 objArea[objDataIndex] = get_object_area(0, 0);
                 objX[objDataIndex] = get_object_center_x(0, 0) - get_camera_width() / 2 + CUBE_APPROACH_EXTRA_OFFSET;
@@ -153,7 +149,7 @@ int preformApproach(bool leftCube) {
             }
             printf("xsum: %i\n", xSum);
             printf("xearly sum: %i\n", xEarlySum);
-            msleep(800);
+            msleep(700);
             create_drive_straight(0);
             move_claw_amount(CLAW_CLOSE_AMOUNT);
             motor(0, 4);
@@ -205,50 +201,66 @@ void cubeLoop() {
     while (true) {
         create_drive_straight(0);
         printf("Starting approach.\n");
-        preformApproach(true);
+        preformApproach();
         msleep(900);
         create_drive_straight(150);
         msleep(2100);
         create_drive_straight(0);
         raise_claw_to(CLAW_UP_POSITION);
         
-        create_spin_CW(100);
-        msleep(300);
-        create_drive_straight(0);
         
         
-        create_drive_straight(250);
-        while (get_create_lbump() || get_create_rbump()) { //Bump against PVC
+        create_drive_straight(500);
+        while (!(get_create_lbump() || get_create_rbump())) { //Bump against PVC after approach
         }
-
+        msleep(500);
+        create_spin_CW(150);
+        msleep(320);
+        create_drive_straight(500);
+        msleep(500);
         create_drive_straight(0);
         create_spin_CCW(150);
         
         while (analog(3) > 700) {} //Line up against PVC
-        
+        create_spin_CW(150);
+        msleep(410);
+        create_drive_straight(0);
         create_drive_straight(0);
         
-        create_drive_straight(-100);  //Approach canister
-        msleep(2000);
+        create_drive_straight(-300);  //Approach canister
+        msleep(1100);
+        create_spin_CCW(150); //turn to get canister
+        msleep(270);
+        create_drive_straight(-100);  //final canister approach
+        msleep(1700);
         
-        
-        create_drive_straight(0);
         
         
         move_claw_amount(CLAW_OPEN_AMOUNT);
+        create_drive_straight(0);
+        
         msleep(200);
         
-        create_drive_straight(-100);  //Back away from canister
-        msleep(2000);
+        create_drive_straight(150);  //Back away from canister
+        msleep(1000);
+        create_spin_CW(150);  //turn like we did before
+        msleep(270);
         
+        create_drive_straight(500);
+        while (!(get_create_lbump() || get_create_rbump())) { //Bump against PVC
+        }
+        msleep(1000);
+       
         
         create_drive_straight(0);
         
         
+        create_spin_CCW(150);
+        
+        while (analog(3) > 700) {} //Line up against PVC to face cubes
         create_spin_CW(150);
-        msleep(400);
+        msleep(620);
         create_drive_straight(0);
-        
         
         raise_claw_to(CLAW_DOWN_POSITION);
         clearCamera();
@@ -257,25 +269,33 @@ void cubeLoop() {
 
 int main(int argc, char** argv) {
 
-    shutDownAfter(120);
+    
     struct timeval start_time;
     gettimeofday(&start_time, NULL);
     printf("Create connecting...\n");
-    printf("camera open response: %i\n", camera_open());
     create_connect();
     create_drive_straight(0);
+    printf("camera open response: %i\n", camera_open());
+    
     raise_claw_to(CLAW_DOWN_POSITION);//up pos
     enable_servo(CLAW_LEFT);
     enable_servo(CLAW_RIGHT);
     
     printf("create battery charge: %i.\n", get_create_battery_charge());
+    
+    
+    //Do not wait for input in real thing.  Link start can't use input
     printf("waiting for input...\n");
     char s[20];
     scanf("%s", s);
     if (strcmp(s, "exit") == 0) {
         return 0;
     }
+    shutDownAfter(119);
     preformStartingRoutine();
+    // open claw
+    move_claw_amount(CLAW_OPEN_AMOUNT);
+    cubeLoop();
     //move_claw_amount(CLAW_OPEN_AMOUNT);
     return 0;
     msleep(500);

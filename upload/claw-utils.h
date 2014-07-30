@@ -14,7 +14,7 @@ extern "C" {
 #include <kovan/kovan.h>
 
 #define CLAW_CLOSE_AMOUNT 400
-#define CLAW_OPEN_AMOUNT -150
+#define CLAW_OPEN_AMOUNT -170
 
 #define CLAW_DOWN_POSITION 0
 #define CLAW_UP_POSITION 600  //1300
@@ -36,8 +36,8 @@ extern "C" {
 
 
 #define CUBE_KNOCK_PORT 1  //Correct port is 1
-#define CUBE_KNOCK_UP 1573  //1413
-#define CUBE_KNOCK_UP2 1573
+#define CUBE_KNOCK_UP 1190  //1413
+#define CUBE_KNOCK_UP2 1190
 #define CUBE_KNOCK_DOWN 0   
 
     void raise_botguy_to(int rpos) {
@@ -90,6 +90,10 @@ extern "C" {
     }
 
     void move_claw_amount(int amount) {
+        if (amount == CLAW_OPEN_AMOUNT) {
+            motor(0, -100);
+            while (!digital(15)) {}
+        }else 
         if (amount < 0) {
             motor(0, -100);
             msleep(-amount);

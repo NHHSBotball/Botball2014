@@ -6,10 +6,34 @@
  */
 #include "camera-approach.h"
 
+
+void kill();
+
+void shutDownAfter(int seconds) {
+    wait = seconds;
+    thread tr = thread_create(kill);
+    thread_start(tr);
+}
+
+void kill() {
+    printf("killing in %i.", wait * 1000);
+    msleep(wait * 1000);
+    printf("killing program.\n");
+    disable_servos();
+    create_drive_straight(0);
+    motor(0, 0);
+    motor(1, 0);
+    motor(2, 0);
+    motor(3, 0);
+    exit(1);
+}
 /*
  * 
  */
 int main(int argc, char** argv) {
+    
+    shutDownAfter(119);
+    msleep(5000);
     raise_botguy_to(BOTGUY_CLAW_UP);
     
     enable_servos();
