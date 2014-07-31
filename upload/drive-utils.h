@@ -22,7 +22,7 @@ extern "C" {
 #define BOTGUY_MOTOR_LEFT 0
 #define BOTGUY_MOTOR_RIGHT 1
 
-#define LEFT_WHEEL_POWER 83
+#define LEFT_WHEEL_POWER 85
 #define RIGHT_WHEEL_POWER -79
 
     void turnInPlaceCCW() {

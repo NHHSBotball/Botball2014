@@ -129,7 +129,7 @@ extern "C" {
             
             gettimeofday(&currentTime, NULL);
             
-            if (getElapsedTimeMS() > 4000) {
+            if (getElapsedTimeMS() > 3000) {
                 possibleApproach = true;
             }
             if (possibleApproach) {
@@ -276,7 +276,7 @@ extern "C" {
             
             gettimeofday(&currentTime, NULL);
             
-            if (getElapsedTimeMS() > 3000) {
+            if (getElapsedTimeMS() > 4000) {
                 possibleApproach = true;
             }
             if (possibleApproach) {
